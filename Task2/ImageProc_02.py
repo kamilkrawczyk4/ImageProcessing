@@ -29,3 +29,13 @@ plt.xlabel("Jasność piksela (0–255)")
 plt.ylabel("Liczba pikseli")
 plt.plot(hist)
 plt.savefig("histogram_whole.jpg")
+
+colors = ("b", "g", "r")
+
+for i, col in enumerate(colors):
+    hist_rgb = cv2.calcHist([image], [i], None, [256], [0, 256])
+    plt.plot(hist_rgb, color=col, label=col.upper())
+
+plt.xlim([0,256])
+plt.legend()
+plt.savefig("histogram_rgb.jpg")
