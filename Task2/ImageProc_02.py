@@ -9,6 +9,16 @@ def save_to_file(image, output_path):
     raise OSError(f"Could not write image to {output_path}")
   print(f"Image saved to {output_path}")
 
+#Assessing the quality of an image (so far based on)
+def assess_quality(hist, sl_threshold):
+   prob = hist/hist.sum()
+   shadows = np.sum(prob[0:sl_threshold]) * 100
+   lights = np.sum(prob[256-sl_threshold:256]) * 100
+   if shadows > 5 or lights > 5:
+      return False
+   return True
+   
+
 
 url = "https://upload.wikimedia.org/wikipedia/mediawiki/a/a9/Example.jpg"
 
@@ -39,3 +49,5 @@ for i, col in enumerate(colors):
 plt.xlim([0,256])
 plt.legend()
 plt.savefig("histogram_rgb.jpg")
+
+print("Dobra jakość" if assess_quality(hist, 6) else "Zła jakość")
